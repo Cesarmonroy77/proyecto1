@@ -15,7 +15,11 @@ import java.util.regex.Pattern;
 public class Cataloguer {
     private String nomPub;
     private Read filepub;
-
+    private int imgC;
+    private int vidC;
+    private int linkC;
+    private int pubC;
+    
     public Cataloguer(String nomPub) {
         this.nomPub = nomPub; 
         this.filepub= new Read(nomPub);
@@ -24,20 +28,19 @@ public class Cataloguer {
     public void check(String nomHtml) throws FileNotFoundException{
         try{
             Scanner html = new Scanner(new FileReader(nomHtml));
-            int imgCount=0;
-            int vidCount=0;
-            int linkCount=0;
-            int pubCount=0;
             String etiqueta;
             while((etiqueta=html.nextLine())!=null){
-                Imagenes(etiqueta, imgCount);
-                Videos(etiqueta,vidCount);
-                Links(etiqueta, pubCount);
+                Imagenes(etiqueta, imgC);
+                Videos(etiqueta,vidC);
+                Links(etiqueta, linkC);
                 String domPub;
                 System.out.println("dominios de publicidad");
                 while((domPub=filepub.dominio())!=null){
-                    System.out.println(domPub);
-                    ad(etiqueta,domPub, pubCount);
+                    System.out.println("--"+domPub+"--");
+                    int a = getPubC();
+                    pubC = a;
+                    ad(etiqueta,domPub, pubC);
+                    pubC = pubC+pubC;
                 }
                 
             }
@@ -101,28 +104,30 @@ public class Cataloguer {
               liga = matcher1.group(1);
               String publi[] = liga.split("/");
                for (int j = 0; j < publi.length; j++) {
-                   System.out.println(publi[j]);
-               }
-              int si = liga.compareToIgnoreCase(domPub);
-               if (si >= 15) {
-                   contador ++; 
-                   System.out.println("publicidad : "+liga);
-                   System.out.println("<link>");
+                   if (publi[j].compareToIgnoreCase(domPub) == 0) {
+                       System.out.println(publi[j]);
+                       contador ++;
+                   }
                }
            }
         }
         for (int i = 0; i < 1; i++) {
            while (matcher2.find()) {
               liga = matcher2.group(1);
-              int si = liga.compareToIgnoreCase(domPub);
-              if (si >= 15) {
-                  contador ++; 
-                  System.out.println("publicidad : "+liga);
-                   System.out.println("<a>");
+              String publi[] = liga.split("/");
+               for (int j = 0; j < publi.length; j++) {
+                   if (publi[j].compareToIgnoreCase(domPub) == 0) {
+                       System.out.println(publi[j]);
+                       contador ++;
+                   }
                }
            }
         }
         System.out.println("pubCount: "+contador);
+    }
+
+    public int getPubC() {
+        return pubC;
     }
     
 }

@@ -6,7 +6,10 @@
 package sistema;
 
 import Modelo.Manager;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,16 +20,22 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         String url = null;
+        File archivourl = new File ("paginas.txt");
+        File archivopub = new File ("publicidad.txt");
         String publicidad= null;
         try{
-            url = args[0];
-            publicidad = args[1];
+            url = archivourl.getName();
+            publicidad = archivopub.getName();
         }catch(ArrayIndexOutOfBoundsException ex){
             System.err.println("documento.txt requerido");    
         }
         Manager manager= new Manager(url, publicidad);
-        manager.run();
+        try {
+            manager.run();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

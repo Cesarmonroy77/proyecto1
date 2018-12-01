@@ -1,3 +1,6 @@
-https://www.googleadservices.com/
-https://adclick.g.doubleclick.net/
-https://pubads.g.doubleclick.net/
+www.googleadservices.com
+adclick.g.doubleclick.net
+pubads.g.doubleclick.net
+www.facebook.com
+bit.ly
+fandom.wikia.com
