@@ -22,7 +22,7 @@ public class Manager {
         this.histograma = new Histograma();
     }
     
-    public void run() throws FileNotFoundException{
+    public void run() {
         url.descargar();
         analisis.check("pagina1.html");
         

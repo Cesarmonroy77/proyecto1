@@ -25,7 +25,7 @@ public class Cataloguer {
         this.filepub= new Read(nomPub);
     }
     
-    public void check(String nomHtml) throws FileNotFoundException{
+    public void check(String nomHtml) {
         try{
             Scanner html = new Scanner(new FileReader(nomHtml));
             String etiqueta;

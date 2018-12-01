@@ -22,20 +22,14 @@ public class Main {
      */
     public static void main(String[] args) {
         String url = null;
-        File archivourl = new File ("paginas.txt");
-        File archivopub = new File ("publicidad.txt");
         String publicidad= null;
         try{
-            url = archivourl.getName();
-            publicidad = archivopub.getName();
+            url = args[0];
+            publicidad = args[1];
         }catch(ArrayIndexOutOfBoundsException ex){
             System.err.println("documento.txt requerido");    
         }
         Manager manager= new Manager(url, publicidad);
-        try {
             manager.run();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
