@@ -30,9 +30,9 @@ public class Cataloguer {
             Scanner html = new Scanner(new FileReader(nomHtml));
             String etiqueta;
             while((etiqueta=html.nextLine())!=null){
-                Imagenes(etiqueta, imgC);
-                Videos(etiqueta,vidC);
-                Links(etiqueta, linkC);
+                //Imagenes(etiqueta, imgC);
+                //Videos(etiqueta,vidC);
+                //Links(etiqueta, linkC);
                 String domPub;
                 System.out.println("dominios de publicidad");
                 while((domPub=filepub.dominio())!=null){
@@ -104,8 +104,7 @@ public class Cataloguer {
               liga = matcher1.group(1);
               String publi[] = liga.split("/");
                for (int j = 0; j < publi.length; j++) {
-                   if (publi[j].compareToIgnoreCase(domPub) == 0) {
-                       System.out.println(publi[j]);
+                   if (publi[j].equals(cadena)) {
                        contador ++;
                    }
                }
