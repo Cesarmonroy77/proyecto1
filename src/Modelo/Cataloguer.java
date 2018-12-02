@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,8 +24,13 @@ public class Cataloguer {
     int contadores[]=new int[6];
     
     public Cataloguer(String nomPub) {
-        this.nomPub = nomPub; 
-        this.filepub= new Read(nomPub);
+        this.nomPub = nomPub;
+        try{
+            this.filepub= new Read(nomPub);
+        }catch(FileNotFoundException ne){
+            JOptionPane.showMessageDialog(null, "Verifique la direccion: "+nomPub);
+            System.exit(0);
+        }
     }
     
     public int[] check(String nomHtml) {

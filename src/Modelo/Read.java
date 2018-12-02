@@ -13,12 +13,8 @@ public class Read {
     private String texto;
     private Scanner file;
 
-    public Read(String nomFile) {
-        try{
-            file = new Scanner(new FileReader(nomFile));
-        }catch(FileNotFoundException ne){
-            JOptionPane.showMessageDialog(null, "Una de las direcciones es incorrecta");
-        }
+    public Read(String nomFile) throws FileNotFoundException{
+        file = new Scanner(new FileReader(nomFile));
     }
     
     public String dominio(){

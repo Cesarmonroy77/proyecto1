@@ -8,8 +8,10 @@ package Modelo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,12 +24,18 @@ import javax.swing.JOptionPane;
  * @author César y Yaír
  */
 public class UrlManager {
-    private String nombre;
     private Read url;
+    private BufferedReader server;
+    private BufferedWriter html;
+    
 
-    public UrlManager(String nombre) {
-        this.nombre = nombre;
-        this.url= new Read(nombre);
+    public UrlManager(String nomFileDom) {
+        try{
+            this.url= new Read(nomFileDom);
+        }catch(FileNotFoundException ne){
+            JOptionPane.showMessageDialog(null, "Verifique la direccion: "+nomFileDom);
+            System.exit(0);
+        }
     }
     
     public void descargar(){
@@ -37,16 +45,14 @@ public class UrlManager {
             System.out.println("direcciones");
             while((direccion=url.dominio())!=null){
                 System.out.println(direccion);
-                URL url= new URL(direccion);
-                BufferedReader bf= new BufferedReader(new InputStreamReader(url.openStream()));
-                File fileHtml= new File("pagina"+numPagina+".html");
-                BufferedWriter bw = new BufferedWriter(new FileWriter(fileHtml));
+                readUrl(direccion);
+                writeHtml(numPagina);
                 String cadena;
-                while((cadena = bf.readLine())!=null){
-                    bw.write(cadena);
+                while((cadena = server.readLine())!=null){
+                    html.write(cadena);
                 }
-                bf.close();
-                bw.close();
+                server.close();
+                html.close();
                 numPagina++;
             }
         }catch(NoSuchElementException ter){
@@ -54,5 +60,19 @@ public class UrlManager {
         }catch(Exception ex){
             System.exit(0);
         }
+    }
+    
+    
+    public void readUrl(String direccion) throws MalformedURLException, IOException {
+        URL url= new URL(direccion);
+        server= new BufferedReader(new InputStreamReader(url.openStream()));   
+    }
+    public void writeHtml(int numPagina) throws IOException{
+        File fileHtml= new File("pagina"+numPagina+".html");
+        html = new BufferedWriter(new FileWriter(fileHtml));
+    }
+    
+    public void folder(){
+    
     }
 }

@@ -4,9 +4,6 @@
  * and open the template in the editor.
  */
 package Modelo;
-
-import java.io.FileNotFoundException;
-
 /**
  *
  * @author César y Yaír
@@ -21,7 +18,6 @@ public class Manager {
         this.analisis = new Cataloguer(nomFilePub);
         //this.histograma = new Histograma(int[contadores]);
     }
-    
     public void run() {
         url.descargar();
         analisis.check("pagina1.html");
