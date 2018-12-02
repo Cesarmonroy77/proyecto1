@@ -16,15 +16,16 @@ public class Manager {
     private Cataloguer analisis;
     private Histograma histograma;
 
-    public Manager(String arg1, String arg2) {
-        this.url = new UrlManager(arg1);
-        this.analisis = new Cataloguer(arg2);
-        this.histograma = new Histograma();
+    public Manager(String nomFileDom, String nomFilePub) {
+        this.url = new UrlManager(nomFileDom);
+        this.analisis = new Cataloguer(nomFilePub);
+        //this.histograma = new Histograma(int[contadores]);
     }
     
     public void run() {
         url.descargar();
         analisis.check("pagina1.html");
+        
     } 
 }
 

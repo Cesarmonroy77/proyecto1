@@ -20,23 +20,29 @@ public class Cataloguer {
     private int linkC;
     private int pubC;
     private int otrC;
+    int contadores[]=new int[6];
     
     public Cataloguer(String nomPub) {
         this.nomPub = nomPub; 
         this.filepub= new Read(nomPub);
     }
     
-    public void check(String nomHtml) {
+    public int[] check(String nomHtml) {
         try{
+            
+            int imgC=0;
+            int vidC=0;
+            int linkC=0;
+            int pubC=0;
             Scanner html = new Scanner(new FileReader(nomHtml));
             String etiqueta;
             while((etiqueta=html.nextLine())!=null){
-                Imagenes(etiqueta, imgC);
-                Videos(etiqueta,vidC);
-                Links(etiqueta, linkC);
-                IL(etiqueta,linkC);
-                VL(etiqueta,linkC);
-                Otros(etiqueta,otrC);
+                contadores[0]=Imagenes(etiqueta, imgC);
+                contadores[1]=Videos(etiqueta,vidC);
+                contadores[2]=Links(etiqueta, linkC);
+                //contadores[3]=IL(etiqueta,linkC);
+                //contadores[4]=VL(etiqueta,linkC);
+                contadores[5]=Otros(etiqueta,otrC);
                 System.out.println("Numero de Imagenes:"+imgC);
                 System.out.println("Numero de Videos:"+vidC);
                 System.out.println("Numero de Links:"+linkC);
@@ -49,51 +55,49 @@ public class Cataloguer {
             }
         }catch(ArrayIndexOutOfBoundsException ex){
         }catch(NoSuchElementException e){
-        }catch(FileNotFoundException nf){}   
+        }catch(FileNotFoundException nf){}  
+        return contadores;
     }
     
-    public void Imagenes(String cadena, int contador){
+    public int Imagenes(String cadena, int contador){
         Pattern pattern1 = Pattern.compile("(<img[^>]*>)");
         Matcher matcher1 = pattern1.matcher(cadena);
             while (matcher1.find()) {
                 contador ++;
-                setImgC(contador);
            }
+        return contador;
     }
     
-    public void Otros(String cadena, int contador){
+    public int Otros(String cadena, int contador){
         Pattern pattern1 = Pattern.compile("(<script[^>]*>)");
         Matcher matcher1 = pattern1.matcher(cadena);
             while (matcher1.find()) {
                 contador ++;
-                setOtrC(contador);
            }
+        return contador;
     }
 
-    public void Videos(String cadena, int contador){
+    public int Videos(String cadena, int contador){
         Pattern pattern1 = Pattern.compile("(<video[^>]*>)");
         Matcher matcher1 = pattern1.matcher(cadena);
            while (matcher1.find()) {
               contador ++; 
-              setVidC(contador);
         }
+        return contador;
     }
     
-    public void Links(String cadena, int contador){
+    public int Links(String cadena, int contador){
         Pattern pattern2 = Pattern.compile("<link[^>]*href=\\\"(.*?)\"");
         Pattern pattern3 = Pattern.compile("<a[^>]*href=\\\"(.*?)\"");
         Matcher matcher1 = pattern2.matcher(cadena);
         Matcher matcher2 = pattern3.matcher(cadena);
            while (matcher1.find()) {
               contador ++;
-              setLinkC(contador);
-              //System.out.println("link : "+matcher1.group(1));
            }
            while (matcher2.find()) {
               contador ++;
-              setLinkC(contador);
-              //System.out.println("link : "+matcher2.group(1));
            }
+           return contador;
     }
     
     public void IL(String cadena, int linkC){

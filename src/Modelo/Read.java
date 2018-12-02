@@ -3,6 +3,7 @@ package Modelo;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,11 +14,10 @@ public class Read {
     private Scanner file;
 
     public Read(String nomFile) {
-        System.out.println("read");
         try{
             file = new Scanner(new FileReader(nomFile));
         }catch(FileNotFoundException ne){
-            System.exit(0);
+            JOptionPane.showMessageDialog(null, "Una de las direcciones es incorrecta");
         }
     }
     

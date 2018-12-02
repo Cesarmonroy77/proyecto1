@@ -32,7 +32,6 @@ public class UrlManager {
     
     public void descargar(){
         try{
-            System.out.println("download");
             int numPagina=1;
             String direccion;
             System.out.println("direcciones");
