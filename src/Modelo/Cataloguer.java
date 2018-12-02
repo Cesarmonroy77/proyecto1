@@ -19,6 +19,7 @@ public class Cataloguer {
     private int vidC;
     private int linkC;
     private int pubC;
+    private int otrC;
     
     public Cataloguer(String nomPub) {
         this.nomPub = nomPub; 
@@ -30,16 +31,21 @@ public class Cataloguer {
             Scanner html = new Scanner(new FileReader(nomHtml));
             String etiqueta;
             while((etiqueta=html.nextLine())!=null){
-                //Imagenes(etiqueta, imgC);
-                //Videos(etiqueta,vidC);
+                Imagenes(etiqueta, imgC);
+                Videos(etiqueta,vidC);
                 Links(etiqueta, linkC);
+                IL(etiqueta,linkC);
+                VL(etiqueta,linkC);
+                Otros(etiqueta,otrC);
+                System.out.println("Numero de Imagenes:"+imgC);
+                System.out.println("Numero de Videos:"+vidC);
+                System.out.println("Numero de Links:"+linkC);
+                System.out.println("Numero de Otros elementos:"+otrC);
                 String domPub;
-                System.out.println("dominios de publicidad");
                 while((domPub=filepub.dominio())!=null){
-                    System.out.println("--"+domPub+"--");
                     ad(etiqueta,domPub, pubC);
-                }
-                
+                    System.out.println("Numero de Publicidad:"+pubC);
+                }    
             }
         }catch(ArrayIndexOutOfBoundsException ex){
         }catch(NoSuchElementException e){
@@ -49,13 +55,19 @@ public class Cataloguer {
     public void Imagenes(String cadena, int contador){
         Pattern pattern1 = Pattern.compile("(<img[^>]*>)");
         Matcher matcher1 = pattern1.matcher(cadena);
-        for (int i = 0; i < 1; i++) {
             while (matcher1.find()) {
-                contador ++; 
-                System.out.println("Imagen: "+matcher1.group(1));
+                contador ++;
+                setImgC(contador);
            }
-            System.out.println("ImgCount : "+contador);
-        }
+    }
+    
+    public void Otros(String cadena, int contador){
+        Pattern pattern1 = Pattern.compile("(<script[^>]*>)");
+        Matcher matcher1 = pattern1.matcher(cadena);
+            while (matcher1.find()) {
+                contador ++;
+                setOtrC(contador);
+           }
     }
 
     public void Videos(String cadena, int contador){
@@ -63,9 +75,8 @@ public class Cataloguer {
         Matcher matcher1 = pattern1.matcher(cadena);
            while (matcher1.find()) {
               contador ++; 
-              System.out.println("video: "+matcher1.group(1));
+              setVidC(contador);
         }
-        System.out.println("VideoCount :"+contador);
     }
     
     public void Links(String cadena, int contador){
@@ -74,17 +85,40 @@ public class Cataloguer {
         Matcher matcher1 = pattern2.matcher(cadena);
         Matcher matcher2 = pattern3.matcher(cadena);
            while (matcher1.find()) {
-              contador ++; 
-              System.out.println("link : "+matcher1.group(1));
+              contador ++;
+              setLinkC(contador);
+              //System.out.println("link : "+matcher1.group(1));
            }
            while (matcher2.find()) {
-              contador ++; 
-              System.out.println("link : "+matcher2.group(1));
+              contador ++;
+              setLinkC(contador);
+              //System.out.println("link : "+matcher2.group(1));
            }
-        System.out.println("LinkCount: "+contador);
     }
     
-    public void ad(String cadena,String domPub, int contador){
+    public void IL(String cadena, int linkC){
+        Pattern pattern2 = Pattern.compile("<img[^>]*src=\"(.*?)\"");
+        Matcher matcher1 = pattern2.matcher(cadena);
+           while (matcher1.find()) {
+              linkC = getLinkC();
+              linkC ++;
+              setLinkC(linkC);
+              //System.out.println("link : "+matcher1.group(1));
+           }
+    }
+    
+    public void VL(String cadena, int linkC){
+        Pattern pattern2 = Pattern.compile("<video[^>]*src=\"(.*?)\"");
+        Matcher matcher1 = pattern2.matcher(cadena);
+           while (matcher1.find()) {
+              linkC = getLinkC();
+              linkC ++;
+              setLinkC(linkC);
+              //System.out.println("link : "+matcher1.group(1));
+           }
+    }
+    
+    public void ad(String cadena, String domPub, int contador){
         String liga;
         Pattern pattern2 = Pattern.compile("<link[^>]*href=\\\"(.*?)\"");
         Pattern pattern3 = Pattern.compile("<a[^>]*href=\\\"(.*?)\"");
@@ -94,8 +128,9 @@ public class Cataloguer {
               liga = matcher1.group(1);
               String publi[] = liga.split("/");
                for (int j = 0; j < publi.length; j++) {
-                   if (publi[j].equals(cadena)) {
+                 if (publi[j].equals(domPub)) {
                        contador ++;
+                       setPubC(contador);
                    }
                }
            }
@@ -103,18 +138,55 @@ public class Cataloguer {
               liga = matcher2.group(1);
               String publi[] = liga.split("/");
                for (int j = 0; j < publi.length; j++) {
-                   if (publi[j].compareToIgnoreCase(domPub) == 0) {
-                       System.out.println(publi[j]);
+                    if (publi[j].equals(domPub)) {
                        contador ++;
+                       setPubC(contador);
                    }
                }
            }
-        System.out.println("pubCount: "+contador);
+    }
+
+    public int getImgC() {
+        return imgC;
+    }
+
+    public void setImgC(int imgC) {
+        this.imgC = imgC;
+    }
+
+    public int getVidC() {
+        return vidC;
+    }
+
+    public void setVidC(int vidC) {
+        this.vidC = vidC;
+    }
+
+    public int getLinkC() {
+        return linkC;
+    }
+
+    public void setLinkC(int linkC) {
+        this.linkC = linkC;
+    }
+    
+    public void setPubC(int pubC) {
+        this.pubC = pubC;
     }
 
     public int getPubC() {
         return pubC;
     }
+
+    public int getOtrC() {
+        return otrC;
+    }
+
+    public void setOtrC(int otrC) {
+        this.otrC = otrC;
+    }
+    
+    
     
 }
 

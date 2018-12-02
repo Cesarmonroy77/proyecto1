@@ -25,8 +25,6 @@ public class Manager {
     public void run() {
         url.descargar();
         analisis.check("pagina1.html");
-        
-    
     } 
 }
 
