@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package Modelo;
+
+import java.io.File;
+
 /**
  *
  * @author César y Yaír
@@ -20,8 +23,13 @@ public class Manager {
     }
     public void run() {
         url.descargar();
-        analisis.check("pagina1.html");
-        
+        String[] nomFiles = url.nomFiles();
+        for (int i = 0; i < nomFiles.length; i++) {
+            File dirFile= new File(url.folder(), nomFiles[i]);
+            System.out.println("\n"+nomFiles[i]+": "+dirFile.getAbsolutePath());
+            //System.out.println("pagina");
+            analisis.check(dirFile.getAbsolutePath());
+        }
     } 
 }
 

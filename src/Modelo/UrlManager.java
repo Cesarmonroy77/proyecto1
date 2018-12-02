@@ -42,14 +42,14 @@ public class UrlManager {
         try{
             int numPagina=1;
             String direccion;
-            System.out.println("direcciones");
+            System.out.println("direcciones");//direcciones --eliminar
             while((direccion=url.dominio())!=null){
-                System.out.println(direccion);
+                System.out.println(direccion);//muestra las direcciones --eliminar
                 readUrl(direccion);
-                writeHtml(numPagina);
-                String cadena;
-                while((cadena = server.readLine())!=null){
-                    html.write(cadena);
+                writeHtml(folder().getAbsolutePath(),numPagina);
+                String etiqueta;
+                while((etiqueta = server.readLine())!=null){
+                    html.write(etiqueta);
                 }
                 server.close();
                 html.close();
@@ -58,6 +58,7 @@ public class UrlManager {
         }catch(NoSuchElementException ter){
             JOptionPane.showMessageDialog(null, "Todas las direcciones url del archivo fueron descargadas exitosamente");
         }catch(Exception ex){
+            ex.printStackTrace();
             System.exit(0);
         }
     }
@@ -67,12 +68,24 @@ public class UrlManager {
         URL url= new URL(direccion);
         server= new BufferedReader(new InputStreamReader(url.openStream()));   
     }
-    public void writeHtml(int numPagina) throws IOException{
-        File fileHtml= new File("pagina"+numPagina+".html");
+    public String writeHtml(String dirFolder,int numPagina) throws IOException{
+        String nomHtml= "pagina"+numPagina+".html";
+        File fileHtml = new File(dirFolder, nomHtml);
         html = new BufferedWriter(new FileWriter(fileHtml));
+        return nomHtml;
     }
     
-    public void folder(){
+    public File folder(){
+        File dirFolder= new File("C:"+File.separator+"Users"+File.separator+"César"+File.separator+"Desktop"+File.separator+"No_analizado");
+        if (dirFolder.exists()) {
+            return dirFolder;  
+        }
+        dirFolder.mkdir();
+        return dirFolder;     
+    }
     
+    public String[] nomFiles(){
+        String[] names=folder().list();
+        return names;
     }
 }

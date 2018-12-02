@@ -61,8 +61,12 @@ public class Cataloguer {
             }
         }catch(ArrayIndexOutOfBoundsException ex){
         }catch(NoSuchElementException e){
-        }catch(FileNotFoundException nf){}  
-        return contadores;
+        }catch(FileNotFoundException nf){}
+        for (int i = 0; i < 6; i++) {
+            System.out.println("contador"+i+": "+contadores[i]);
+        }
+            return contadores;
+        
     }
     
     public int Imagenes(String cadena, int contador){
