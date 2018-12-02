@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author César
+ * @author César y Yaír
  */
 public class Main {
 
@@ -24,8 +24,10 @@ public class Main {
         String url = null;
         String publicidad= null;
         try{
-            url = args[0];
-            publicidad = args[1];
+            //url = args[0];
+            //publicidad = args[1];
+            url = "paginas.txt";
+            publicidad = "publicidad.txt";
         }catch(ArrayIndexOutOfBoundsException ex){
             System.err.println("documento.txt requerido");    
         }

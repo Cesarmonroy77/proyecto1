@@ -3,7 +3,7 @@ package Modelo;
 
 /**
  *
- * @author César
+ * @author César y Yaír
  */
 public class Histograma {
     

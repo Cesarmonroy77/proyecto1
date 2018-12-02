@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author César
+ * @author César y Yaír
  */
 public class UrlManager {
     private String nombre;

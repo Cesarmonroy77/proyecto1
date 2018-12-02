@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author César
+ * @author César y Yaír
  */
 public class Cataloguer {
     private String nomPub;
@@ -32,15 +32,12 @@ public class Cataloguer {
             while((etiqueta=html.nextLine())!=null){
                 //Imagenes(etiqueta, imgC);
                 //Videos(etiqueta,vidC);
-                //Links(etiqueta, linkC);
+                Links(etiqueta, linkC);
                 String domPub;
                 System.out.println("dominios de publicidad");
                 while((domPub=filepub.dominio())!=null){
                     System.out.println("--"+domPub+"--");
-                    int a = getPubC();
-                    pubC = a;
                     ad(etiqueta,domPub, pubC);
-                    pubC = pubC+pubC;
                 }
                 
             }
@@ -50,7 +47,7 @@ public class Cataloguer {
     }
     
     public void Imagenes(String cadena, int contador){
-        Pattern pattern1 = Pattern.compile("(<img[^>]*/>)");
+        Pattern pattern1 = Pattern.compile("(<img[^>]*>)");
         Matcher matcher1 = pattern1.matcher(cadena);
         for (int i = 0; i < 1; i++) {
             while (matcher1.find()) {
@@ -64,11 +61,9 @@ public class Cataloguer {
     public void Videos(String cadena, int contador){
         Pattern pattern1 = Pattern.compile("(<video[^>]*>)");
         Matcher matcher1 = pattern1.matcher(cadena);
-        for (int i = 0; i < 1; i++) {
            while (matcher1.find()) {
               contador ++; 
               System.out.println("video: "+matcher1.group(1));
-           }
         }
         System.out.println("VideoCount :"+contador);
     }
@@ -78,18 +73,14 @@ public class Cataloguer {
         Pattern pattern3 = Pattern.compile("<a[^>]*href=\\\"(.*?)\"");
         Matcher matcher1 = pattern2.matcher(cadena);
         Matcher matcher2 = pattern3.matcher(cadena);
-        for (int i = 0; i < 1; i++) {
            while (matcher1.find()) {
               contador ++; 
               System.out.println("link : "+matcher1.group(1));
            }
-        }
-        for (int i = 0; i < 1; i++) {
            while (matcher2.find()) {
               contador ++; 
               System.out.println("link : "+matcher2.group(1));
            }
-        }
         System.out.println("LinkCount: "+contador);
     }
     
@@ -99,7 +90,6 @@ public class Cataloguer {
         Pattern pattern3 = Pattern.compile("<a[^>]*href=\\\"(.*?)\"");
         Matcher matcher1 = pattern2.matcher(cadena);
         Matcher matcher2 = pattern3.matcher(cadena);
-        for (int i = 0; i < 1; i++) {
            while (matcher1.find()) {
               liga = matcher1.group(1);
               String publi[] = liga.split("/");
@@ -109,8 +99,6 @@ public class Cataloguer {
                    }
                }
            }
-        }
-        for (int i = 0; i < 1; i++) {
            while (matcher2.find()) {
               liga = matcher2.group(1);
               String publi[] = liga.split("/");
@@ -121,7 +109,6 @@ public class Cataloguer {
                    }
                }
            }
-        }
         System.out.println("pubCount: "+contador);
     }
 

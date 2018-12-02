@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 
 /**
  *
- * @author César
+ * @author César y Yaír
  */
 public class Manager {
     private UrlManager url;
