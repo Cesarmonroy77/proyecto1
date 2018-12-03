@@ -22,13 +22,11 @@ public class Manager {
         //this.histograma = new Histograma(int[contadores]);
     }
     public void run() {
-        url.descargar();
-        String[] nomFiles = url.nomFiles();
+        String[] nomFiles = url.descargar();
         for (int i = 0; i < nomFiles.length; i++) {
             File dirFile= new File(url.folder(), nomFiles[i]);
-            System.out.println("\n"+nomFiles[i]+": "+dirFile.getAbsolutePath());
-            //System.out.println("pagina");
-            analisis.check(dirFile.getAbsolutePath());
+            //System.out.println("\n"+nomFiles[i]+": "+dirFile.getAbsolutePath());
+            analisis.check(url.folder(), nomFiles[i]);
         }
     } 
 }

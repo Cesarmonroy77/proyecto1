@@ -24,21 +24,21 @@ import javax.swing.JOptionPane;
  * @author César y Yaír
  */
 public class UrlManager {
-    private Read url;
+    private FileManager url;
     private BufferedReader server;
     private BufferedWriter html;
     
 
     public UrlManager(String nomFileDom) {
         try{
-            this.url= new Read(nomFileDom);
+            this.url= new FileManager(nomFileDom);
         }catch(FileNotFoundException ne){
             JOptionPane.showMessageDialog(null, "Verifique la direccion: "+nomFileDom);
             System.exit(0);
         }
     }
     
-    public void descargar(){
+    public String[] descargar(){
         try{
             int numPagina=1;
             String direccion;
@@ -46,7 +46,7 @@ public class UrlManager {
             while((direccion=url.dominio())!=null){
                 System.out.println(direccion);//muestra las direcciones --eliminar
                 readUrl(direccion);
-                writeHtml(folder().getAbsolutePath(),numPagina);
+                writeHtml(url.folder("No_analizado").getAbsolutePath(),numPagina);
                 String etiqueta;
                 while((etiqueta = server.readLine())!=null){
                     html.write(etiqueta);
@@ -57,10 +57,12 @@ public class UrlManager {
             }
         }catch(NoSuchElementException ter){
             JOptionPane.showMessageDialog(null, "Todas las direcciones url del archivo fueron descargadas exitosamente");
+            return url.nomFiles("No_Analizado");
         }catch(Exception ex){
             ex.printStackTrace();
             System.exit(0);
         }
+        return null;
     }
     
     
@@ -75,17 +77,7 @@ public class UrlManager {
         return nomHtml;
     }
     
-    public File folder(){
-        File dirFolder= new File("C:"+File.separator+"Users"+File.separator+"César"+File.separator+"Desktop"+File.separator+"No_analizado");
-        if (dirFolder.exists()) {
-            return dirFolder;  
-        }
-        dirFolder.mkdir();
-        return dirFolder;     
-    }
-    
-    public String[] nomFiles(){
-        String[] names=folder().list();
-        return names;
+    public String folder(){
+        return url.folder("No_Analizado").getAbsolutePath();
     }
 }

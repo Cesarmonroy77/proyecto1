@@ -1,6 +1,7 @@
 
 package Modelo;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.NoSuchElementException;
@@ -15,7 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class Cataloguer {
     private String nomPub;
-    private Read filepub;
+    private FileManager filepub;
     private int imgC;
     private int vidC;
     private int linkC;
@@ -26,21 +27,20 @@ public class Cataloguer {
     public Cataloguer(String nomPub) {
         this.nomPub = nomPub;
         try{
-            this.filepub= new Read(nomPub);
+            this.filepub= new FileManager(nomPub);
         }catch(FileNotFoundException ne){
             JOptionPane.showMessageDialog(null, "Verifique la direccion: "+nomPub);
             System.exit(0);
         }
     }
     
-    public int[] check(String nomHtml) {
-        try{
-            
+    public int[] check(String dirHtml,String nomHtml) {
+        try{ 
             int imgC=0;
             int vidC=0;
             int linkC=0;
             int pubC=0;
-            Scanner html = new Scanner(new FileReader(nomHtml));
+            Scanner html = new Scanner(new FileReader(dirHtml+File.separator+nomHtml));
             String etiqueta;
             while((etiqueta=html.nextLine())!=null){
                 contadores[0]=Imagenes(etiqueta, imgC);
@@ -49,16 +49,15 @@ public class Cataloguer {
                 //contadores[3]=IL(etiqueta,linkC);
                 //contadores[4]=VL(etiqueta,linkC);
                 contadores[5]=Otros(etiqueta,otrC);
-                System.out.println("Numero de Imagenes:"+imgC);
-                System.out.println("Numero de Videos:"+vidC);
-                System.out.println("Numero de Links:"+linkC);
-                System.out.println("Numero de Otros elementos:"+otrC);
+                filepub.mover(dirHtml, nomHtml);
                 String domPub;
                 while((domPub=filepub.dominio())!=null){
                     ad(etiqueta,domPub, pubC);
                     System.out.println("Numero de Publicidad:"+pubC);
-                }    
+                }
+                html.close();
             }
+            
         }catch(ArrayIndexOutOfBoundsException ex){
         }catch(NoSuchElementException e){
         }catch(FileNotFoundException nf){}
@@ -159,7 +158,10 @@ public class Cataloguer {
                }
            }
     }
+    
 
+    
+    
     public int getImgC() {
         return imgC;
     }
